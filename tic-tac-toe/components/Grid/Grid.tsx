@@ -1,11 +1,12 @@
 import { useState } from "react";
-import Card from "../card/card";
+import Card from "../Card/Card";
 import {ToastContainer, toast} from 'react-toastify';
 import './Grid.css'
 import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
 
 
-function isWinner(board, symbol) {
+function isWinner(board: string[], symbol: string): string{
     console.log(board, symbol)
     if(board[0] == board[1] && board[1] == board[2] && board[2] == symbol)return symbol;
     if(board[3] == board[4] && board[4] == board[5] && board[5] == symbol)return symbol;
@@ -22,15 +23,19 @@ function isWinner(board, symbol) {
     return "";
 }
 
-
-function Grid ({numberOfCards}) {
-    const [turn, setTurn] = useState(true);
-    const [board, setBoard] = useState(Array(numberOfCards).fill(""));
-    const [winner, setWinner] = useState(null);
-    const [isDraw, setIsDraw] = useState(false);
+interface GridProps {
+    numberOfCards: number;
+}
 
 
-  function play(index) {
+const Grid: React.FC<GridProps> = ({numberOfCards}) => {
+    const [turn, setTurn] = useState<boolean>(true);
+    const [board, setBoard] = useState<string[]>(Array(numberOfCards).fill(""));
+    const [winner, setWinner] = useState<string | null>(null);
+    const [isDraw, setIsDraw] = useState<boolean>(false);
+
+
+  function play(index: number): void {
       if (board[index] !== "" || winner) return;
 
       board[index] = turn ? "O" : "X";
@@ -53,7 +58,7 @@ function Grid ({numberOfCards}) {
   }
 
 
-  function reset(){
+  const reset = (): void => {
     setBoard(Array(numberOfCards).fill(""));
     setWinner(null);
     setIsDraw(false);
